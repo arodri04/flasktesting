@@ -80,16 +80,48 @@ def add_name():
     
     if not user_id:
         return jsonify({"error": "Unauthorized"})
-    
-    user = User.query.filter_by(id=user_id).first()
-    new_character = Character(name=name)
+    new_character = Character(id=user_id, name=name)
     db.session.add(new_character)
     db.session.commit()
 
     return jsonify({
+        "id": new_character.id,
         "name": new_character.name
     })
 
+@app.route("/createchar", methods=["POST"])
+def add_char():
+    user_id = session.get("user_id")
+    name = request.json["name"]
+    cclass = request.json["class"]
+    level = request.json["level"]
+    
+    if not user_id:
+        return jsonify({"error": "Unauthorized"})
+    new_character = Character(id=user_id, name=name, cclass=cclass, level=level)
+    db.session.add(new_character)
+    db.session.commit()
+
+    return jsonify({
+        "id": new_character.id,
+        "name": new_character.name
+    })
+
+@app.route("/getname")
+def get_name():
+    user_id = session.get("user_id")
+
+    if not user_id:
+        return jsonify({"error": "Unauthorized"})
+    
+    user = Character.query.filter_by(id=user_id).first()
+    
+    return jsonify({
+        "name": user.name,
+        "class": user.cclass,
+        "race": user.race,
+        "level": user.level
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)
