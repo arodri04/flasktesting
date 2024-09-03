@@ -95,10 +95,11 @@ def add_char():
     name = request.json["name"]
     cclass = request.json["class"]
     level = request.json["level"]
+    race = request.json["race"]
     
     if not user_id:
         return jsonify({"error": "Unauthorized"})
-    new_character = Character(id=user_id, name=name, cclass=cclass, level=level)
+    new_character = Character(id=user_id, name=name, cclass=cclass, level=level, race=race)
     db.session.add(new_character)
     db.session.commit()
 

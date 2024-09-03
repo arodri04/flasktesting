@@ -15,11 +15,10 @@ class User(db.Model):
 
 
 class Character(db.Model):
-    __tablename__ = "character"
-    id = db.Column(db.String(32), primary_key=True)
+    __tablename__ = "characters"
+    id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
     name = db.Column(db.String(32))
-
     cclass = db.Column(db.String(32))
     level = db.Column(db.Integer())
-
+    race = db.Column(db.String(32))
      
